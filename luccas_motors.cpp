@@ -19,38 +19,25 @@ public:
 private:
     void run()
     {
-        while (rclcpp::ok()) 
+        while (rclcpp::ok()) // Mantém o nó rodando enquanto o ROS 2 estiver ativo
         {
             auto message = SetPosition();
 
-            
-            while (true)
+            // Solicita e valida entrada do usuário
+            if (!get_input("Digite o ID do motor: ", message.id) ||
+                !get_input("Digite a posição do motor: ", message.position))
             {
-                if (!get_input("Digite o ID do motor (0 a 20): ", message.id) || message.id < 0 || message.id > 20)
-                {
-                    RCLCPP_ERROR(this->get_logger(), "Erro: O ID do motor deve estar entre 0 e 20.");
-                    continue; 
-                break; 
+                RCLCPP_ERROR(this->get_logger(), "Entrada inválida! Digite valores numéricos inteiros.");
+                continue; // Pula a iteração atual e pede novamente os valores
             }
 
-            
-            while (true)
-            {
-                if (!get_input("Digite a posição do motor: ", message.position))
-                {
-                    RCLCPP_ERROR(this->get_logger(), "Erro: A posição deve ser um número inteiro válido.");
-                    continue; 
-                }
-                break; 
-            }
-
-           
+            // Exibe os valores no terminal e publica a mensagem
             RCLCPP_INFO(this->get_logger(), "Publicando - ID: %d, Posição: %d", message.id, message.position);
             publisher_->publish(message);
         }
     }
 
-   
+    // Método para obter e validar a entrada do usuário
     bool get_input(const std::string &prompt, int &value)
     {
         std::cout << prompt;
@@ -59,12 +46,12 @@ private:
 
         try
         {
-            value = std::stoi(input);
+            value = std::stoi(input); // Converte string para inteiro
             return true;
         }
         catch (const std::exception &e)
         {
-            return false; 
+            return false; // Retorna falso se a conversão falhar
         }
     }
 
