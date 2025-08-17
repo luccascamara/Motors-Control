@@ -19,25 +19,25 @@ public:
 private:
     void run()
     {
-        while (rclcpp::ok()) // Mantém o nó rodando enquanto o ROS 2 estiver ativo
+        while (rclcpp::ok()) 
         {
             auto message = SetPosition();
 
-            // Solicita e valida entrada do usuário
+           
             if (!get_input("Digite o ID do motor: ", message.id) ||
                 !get_input("Digite a posição do motor: ", message.position))
             {
                 RCLCPP_ERROR(this->get_logger(), "Entrada inválida! Digite valores numéricos inteiros.");
-                continue; // Pula a iteração atual e pede novamente os valores
+                continue; 
             }
 
-            // Exibe os valores no terminal e publica a mensagem
+            
             RCLCPP_INFO(this->get_logger(), "Publicando - ID: %d, Posição: %d", message.id, message.position);
             publisher_->publish(message);
         }
     }
 
-    // Método para obter e validar a entrada do usuário
+    
     bool get_input(const std::string &prompt, int &value)
     {
         std::cout << prompt;
@@ -46,12 +46,12 @@ private:
 
         try
         {
-            value = std::stoi(input); // Converte string para inteiro
+            value = std::stoi(input); 
             return true;
         }
         catch (const std::exception &e)
         {
-            return false; // Retorna falso se a conversão falhar
+            return false; 
         }
     }
 
