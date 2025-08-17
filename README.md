@@ -1,1 +1,1 @@
-# Motors-Connection
+Código desenvolvido para controlar a posição dos motores de um Robô Humanoide. A aplicação permite que o usuário insira, diretamente pelo terminal, o ID do motor e a posição desejada. Essas informações são então publicadas em um tópico ROS2, possibilitando que outros nós do sistema recebam os comandos e executem o movimento correspondente no motor indicado.
